@@ -5,12 +5,13 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <time.h>
+# include <sys/time.h>
+
 
 typedef struct s_philo
 {
 	int				id;
-	long			timestamp;
-	int				meals_eaten;
 	pthread_t		thread;
 	pthread_mutex_t	*left_f;
 	pthread_mutex_t	*right_f;
@@ -23,12 +24,19 @@ typedef struct s_data
 	long			time_to_die;
 	long			time_to_eat;
 	long			time_to_sleep;
-	int				must_eat;
 	long			start_time;
-	pthread_mutex_t	*forks;
+	bool			ready;
 	pthread_mutex_t	print_mutex;
-	int				someone_died;
+	bool			someone_died;
 	t_philo			*philos;
 }					t_data;
+
+// utils
+
+int					ft_atoi(const char *nbr);
+void				ft_putstr_fd(char *s, int fd);
+bool				is_digit(char *str);
+
+// ft_error_and_free
 
 #endif
