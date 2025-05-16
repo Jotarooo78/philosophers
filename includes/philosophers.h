@@ -5,9 +5,8 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <time.h>
 # include <sys/time.h>
-
+# include <time.h>
 
 typedef struct s_philo
 {
@@ -24,10 +23,11 @@ typedef struct s_data
 	long			time_to_die;
 	long			time_to_eat;
 	long			time_to_sleep;
-	long			start_time;
+	struct timeval	start_time;
+	bool			someone_died;
+	pthread_mutex_t	death_mutex;
 	bool			ready;
 	pthread_mutex_t	print_mutex;
-	bool			someone_died;
 	t_philo			*philos;
 }					t_data;
 
@@ -36,6 +36,8 @@ typedef struct s_data
 int					ft_atoi(const char *nbr);
 void				ft_putstr_fd(char *s, int fd);
 bool				is_digit(char *str);
+bool				arg_verif(int argc, char **argv);
+bool				parameters_check(t_data *data);
 
 // ft_error_and_free
 

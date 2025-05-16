@@ -6,60 +6,60 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:53:24 by armosnie          #+#    #+#             */
-/*   Updated: 2025/05/14 18:53:30 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:43:18 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-bool arg_verif(int argc, char **argv)
+bool init_mutex(t_data *data, t_philo *philo, int i)
 {
-	int	i;
-
-	i = 0;
-	if (argc < 5)
-		return (ft_putstr_fd("not enough arg\n", 1), false);
-	else if (argc > 6)
-		return (ft_putstr_fd("too many arg\n", 1), false);
-	while (argv[i])
+	while (i < data->nb_philos)
 	{
-		if (is_digit(argv[i]) == false)
-			return (ft_putstr_fd("incorrect arg format\n", 1), false);
+		if (init_philo(&philo[i], i) == false)
+			return (ft_putstr_fd("init philo struct failed\n", 1), false);
 		i++;
 	}
 	return (true);
 }
 
-bool init_philo(pthread_t *thread, t_philo *philo)
+bool	init_philo(t_philo *philo, int i)
 {
-	philo->id = 0;
-	philo->left_f = NULL;
-	philo->right_f = NULL;
-	if (pthread_create(thread, NULL, &routine, philo) == false)
+	philo->id = i;
+	if (pthread_create(&philo->thread, NULL, &routine, &philo[i])!= 0)
+		return (false);
+	if (pthread_create(&philo->left_f, NULL, &routine, &philo[i])!= 0)
+		return (false);
+	if (pthread_create(&philo->right_f, NULL, &routine, &philo[i])!= 0)
 		return (false);
 	return (true);
 }
 
 bool	init_data(int argc, char **argv, t_data *data)
 {
-	t_philo *philo;
-	
+	int		i;
+	t_philo	*philo;
+
+	i = 0;
 	data->nb_philos = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
 	data->ready = false;
-	data->start_time = ;
-	data->print_mutex = ;
-	data->someone_died = false;
+	data->death = false;
 	philo = malloc(sizeof(t_philo) * data->nb_philos);
 	if (philo == NULL)
 		return (free(data), false);
+	if (init_mutex(data, philo, i)== false)
+		return (ft_putstr_fd("init mutex struct failed\n", 1), false);
+	if (parameters_check(data) == false)
+		return (ft_putstr_fd("invalid arg\n", 1), false);
+	return (true);
 }
 
 int	main(int argc, char *argv[])
 {
-    t_data *data;
+	t_data	*data;
 
 	if (arg_verif(argc, argv) == false)
 		return (false);
@@ -68,6 +68,9 @@ int	main(int argc, char *argv[])
 		return (NULL);
 	if (init_data(argc, argv, data) == false)
 		return (free(data), false);
-	
-	
+	data->ready = true;
 }
+
+// mutex print_mutex
+
+// comment les setup ?
