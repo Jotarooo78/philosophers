@@ -1,0 +1,42 @@
+Plan d'action détaillé
+
+
+
+Phase 1 : Structure et parsing (1-2h)
+
+Créer les structures de données
+Parser les arguments avec validation
+Gérer les erreurs d'input
+Initialiser les mutex et les données
+
+Phase 2 : Logique de base (2-3h)
+
+Fonction de logging thread-safe
+Calcul des timestamps depuis le début
+Fonctions eat/sleep/think avec usleep()
+Gestion du temps de mort
+
+Phase 3 : Threading (3-4h)
+
+Routine du philosophe
+Créer les threads avec pthread_create
+Thread de surveillance pour détecter les morts
+
+Phase 4 : Synchronisation (2-3h)
+
+Implémenter la stratégie anti-deadlock
+Mutex pour chaque fourchette
+Mutex pour les logs
+Mutex pour l'état de mort
+
+Phase 5 : Monitoring (1-2h)
+
+Thread de surveillance qui vérifie toutes les X ms
+Détection de mort (last_meal_time + time_to_die < now)
+Condition d'arrêt (tous ont mangé suffisamment)
+
+Phase 6 : Tests et debug (2-3h)
+
+Tests unitaires
+Valgrind pour les leaks
+Helgrind pour les data races

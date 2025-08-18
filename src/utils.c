@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:05:37 by armosnie          #+#    #+#             */
-/*   Updated: 2025/05/16 12:51:16 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/18 14:57:23 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,41 +51,44 @@ void	ft_putstr_fd(char *s, int fd)
 	}
 }
 
-bool	is_digit(char *str)
+int	is_digit(char *str)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] >= '0' && str[i] <= '9')
-			return (false);
+		if (!(str[i] >= '0' && str[i] <= '9'))
+			return (1);
 		i++;
 	}
-	return (true);
+	return (0);
 }
 
-bool	arg_verif(int argc, char **argv)
+int	arg_verif(int argc, char **argv)
 {
 	int i;
 
 	i = 0;
 	if (argc < 5)
-		return (ft_putstr_fd("not enough arg\n", 1), false);
+		return (ft_putstr_fd("not enough arg\n", 1), 1);
 	else if (argc > 6)
-		return (ft_putstr_fd("too many arg\n", 1), false);
+		return (ft_putstr_fd("too many arg\n", 1), 1);
 	while (argv[i])
 	{
-		if (is_digit(argv[i]) == false)
-			return (ft_putstr_fd("incorrect arg format\n", 1), false);
+		if (is_digit(argv[i]) == 1)
+			return (ft_putstr_fd("incorrect arg format\n", 1), 1);
 		i++;
 	}
-	return (true);
+	return (0);
 }
 
-bool	parameters_check(t_data *data)
+int	parameters_check(t_data *data)
 {
+	if ((data->meals_required && data->meals_required < 1))
+		return (1);
 	if (data->nb_philos < 1 || data->time_to_die < 1 || data->time_to_eat < 1
 		|| data->time_to_sleep < 1)
-	return (false);
+		return (1);
+	return (0);
 }
