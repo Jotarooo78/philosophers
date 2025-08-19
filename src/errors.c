@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:04:17 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/19 15:00:39 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/19 15:42:00 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ int    cleanup_mutex(t_data *data)
     {
         while (i < data->nb_philos)
         {
-            if (pthread_mutex_destroy(&data->threads[i]) != 0)
-                return (1);
+            if (data->forks)
+                if (pthread_mutex_destroy(&data->forks[i]) != 0)
+                    return (1);
             i++;
         }
+        free(data->forks);
     }
     if (data->someone_died == 1)
         if (pthread_mutex_destroy(&data->death_mutex) != 0)
@@ -56,14 +58,14 @@ void     cleanup_data(t_data *data)
     if (data == NULL)
         return ;
     if (data->philos)
-        freed(data->philos);
+        free(data->philos);
     if (data->threads)
-        freed(data->philos);
+        free(data->philos);
     free(data);
     // tous les mettre a NULL ?
 }
 
-void    cleanup_struct(t_data *data)
+int    cleanup_struct(t_data *data)
 {
     if (cleanup_threads(data) != 0)
         return (1);

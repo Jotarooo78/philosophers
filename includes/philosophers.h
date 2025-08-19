@@ -2,11 +2,12 @@
 # define PHILOSOPHERS
 
 # include <pthread.h>
-# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
 # include <time.h>
+# include <unistd.h>
+
 
 typedef struct s_philo
 {
@@ -39,6 +40,7 @@ typedef struct s_data
 
 // init
 
+int	init_threads(t_data *data);
 t_data				*init_all_struct(char **argv);
 
 // philo
@@ -47,14 +49,21 @@ void				*rountine_philos(void *arg);
 void				print_routine(t_philo *philo, char *action);
 long long			get_time(void);
 
+// action
+
+void	take_forks(t_philo *philo);
+void	eat(t_philo *philo);
+void	drop_forks(t_philo *philo);
+void	think(t_philo *philo);
+void	sleep_philo(t_philo *philo);
+
 // ft_error_and_free
 
-void				cleanup_struct(t_data *data);
+int					cleanup_struct(t_data *data);
 
 // utils
 
 int					ft_atoi(const char *nbr);
-void				ft_putstr_fd(char *s, int fd);
 int					is_digit(char *str);
 int					arg_verif(int argc, char **argv);
 int					parameters_check(t_data *data);

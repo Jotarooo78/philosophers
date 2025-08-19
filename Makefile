@@ -1,4 +1,4 @@
-NAME = philo
+NAME = philosophers
 
 CC = cc
 

@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:39:46 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/19 13:54:42 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/19 16:11:10 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	init_threads(t_data *data)
 			data->someone_died = 1;
 			while (i > 0)
 			{
-				phtread_join(&data->threads[i], NULL);
+				pthread_join(data->threads[i], NULL);
 				i--;
 				return (1);
 			}
@@ -115,16 +115,13 @@ t_data	*init_all_struct(char **argv)
 	if (data == NULL)
 		return (NULL);
 	if (parameters_check(data) == 1)
-		return (ft_putstr_fd("invalid args\n", 1), data->init_success = 0, data);
+		return (printf("invalid args\n"), data->init_success = 0, data);
 	if (init_philosophers(data) != 0)
-		return (ft_putstr_fd("philo alloc failed\n", 1), data->init_success = 0,
+		return (printf("philo alloc failed\n"), data->init_success = 0,
 			data);
 	if (init_mutex(data) != 0)
-		return (ft_putstr_fd("mutex alloc failed\n", 1), data->init_success = 0,
+		return (printf("mutex alloc failed\n"), data->init_success = 0,
 			data);
-	if (init_threads(data) != 0)
-		return (ft_putstr_fd("threads alloc failed\n", 1),
-			data->init_success = 0, data);
     data->init_success = 1;
 	return (data);
 }

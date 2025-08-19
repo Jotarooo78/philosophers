@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:05:37 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/19 11:23:47 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/19 16:07:01 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,6 @@ int	ft_atoi(const char *nbr)
 	return (res * neg);
 }
 
-void	ft_putstr_fd(char *s, int fd)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
-}
-
 int	is_digit(char *str)
 {
 	int	i;
@@ -67,17 +55,17 @@ int	is_digit(char *str)
 
 int	arg_verif(int argc, char **argv)
 {
-	int i;
+	int	i;
 
-	i = 0;
+	i = 1;
 	if (argc < 5)
-		return (ft_putstr_fd("not enough arg\n", 1), 1);
+		return (printf("not enough arg\n"), 1);
 	else if (argc > 6)
-		return (ft_putstr_fd("too many arg\n", 1), 1);
+		return (printf("too many arg\n"), 1);
 	while (argv[i])
 	{
 		if (is_digit(argv[i]) == 1)
-			return (ft_putstr_fd("incorrect arg format\n", 1), 1);
+			return (printf("incorrect arg format\n"), 1);
 		i++;
 	}
 	return (0);

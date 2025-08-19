@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:14:59 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/19 14:35:17 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/19 16:00:48 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	take_forks(t_philo *philo)
 {
-	int	first;
-	int	second;
+	pthread_mutex_t	*first;
+	pthread_mutex_t	*second;
 
     if (philo->left_f > philo->right_f)
     {
@@ -28,14 +28,14 @@ void	take_forks(t_philo *philo)
 	    second = philo->right_f;        
     }
 		pthread_mutex_lock(first);
-        print_routine(philo->id, "has taken a fork...");
+        print_routine(philo, "has taken a fork...");
 		pthread_mutex_lock(second);
-        print_routine(philo->id, "has taken a fork...");
+        print_routine(philo, "has taken a fork...");
 }
 
 void	eat(t_philo *philo)
 {
-	print_routine(philo->id, "is eating...");
+	print_routine(philo, "is eating...");
 	philo->last_meal_time = get_time();
 	usleep(philo->data->time_to_eat * 1000);
 }
@@ -49,11 +49,11 @@ void	drop_forks(t_philo *philo)
 
 void	think(t_philo *philo)
 {
-	print_routine(philo->id, "is thinking...");
+	print_routine(philo, "is thinking...");
 }
 
 void	sleep_philo(t_philo *philo)
 {
-	print_routine(philo->id, "is sleeping...");
+	print_routine(philo, "is sleeping...");
 	usleep(philo->data->time_to_sleep * 1000);
 }

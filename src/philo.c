@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:30:34 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/19 15:01:28 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/19 15:57:41 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@ long long	get_time(void)
 {
 	struct timeval	tv;
 
-	gettimeofday(&tv, NULL);
+	if (gettimeofday(&tv, NULL) != 0)
+	{
+		perror("");
+		return (1);
+	}
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
@@ -30,27 +34,29 @@ void	print_routine(t_philo *philo, char *action)
 	pthread_mutex_unlock(&philo->data->print_mutex);
 }
 
-int	simulation_done(t_data *data)
+int	simulation_done(t_philo *philos)
 {
 	int	i;
 
 	i = 0;
-	data->all_ate_enough = 0;
-	while (i < data->nb_philos)
+	philos->data->all_ate_enough = 0;
+	while (i < philos->data->nb_philos)
 	{
-		if (data->philos[i].meals_eaten == data->meals_required)
-			data->all_ate_enough++;
-        if (data->philos->last_meal_time > data->time_to_die)
-        {
-            data->someone_died = 1;
-            pthread_mutex_lock(&data->death_mutex);
-            print_routine(data->philos, "died");
-            return (1);
-        }
+		if (philos[i].meals_eaten == philos->data->meals_required)
+			philos->data->all_ate_enough++;
+		if (philos->data->philos->last_meal_time > philos->data->time_to_die)
+		{
+			philos->data->someone_died = 1;
+			pthread_mutex_lock(&philos->data->death_mutex);
+			print_routine(philos, "died");
+			return (1);
+		}
 		i++;
 	}
-    if (data->all_ate_enough == data->nb_philos)
-        return (1);
+	if (philos->data->all_ate_enough == philos->data->nb_philos)
+	{
+		return (1);
+	}
 	return (0);
 }
 
@@ -61,8 +67,8 @@ void	*rountine_philos(void *arg)
 
 	philo = (t_philo *)arg;
 	i = 0;
-	while (1 && philo->data->start == 0)
-		;
+	while (philo->data->start == 0)
+		usleep(100);
 	while (simulation_done(philo) == 0)
 	{
 		take_forks(philo);
@@ -72,4 +78,5 @@ void	*rountine_philos(void *arg)
 		sleep_philo(philo);
 		i++;
 	}
+    return (NULL);
 }
