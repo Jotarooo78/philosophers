@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:39:46 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/18 16:30:08 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/19 10:58:04 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int    init_threads(t_data *data)
     i = 0;
     while (i < data->nb_philos)
     {
-        if (pthread_create(&data->threads[i], NULL, rountine_philos(), &data->philos[i]) != 0)
+        if (pthread_create(&data->threads[i], NULL, rountine_philos(data), &data->philos[i]) != 0)
         {
             data->someone_died = 1;
             while (i > 0)
