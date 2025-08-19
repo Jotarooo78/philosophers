@@ -8,7 +8,6 @@
 # include <time.h>
 # include <unistd.h>
 
-
 typedef struct s_philo
 {
 	int				id;
@@ -40,7 +39,7 @@ typedef struct s_data
 
 // init
 
-int	init_threads(t_data *data);
+int					init_threads(t_data *data);
 t_data				*init_all_struct(char **argv);
 
 // philo
@@ -51,11 +50,11 @@ long long			get_time(void);
 
 // action
 
-void	take_forks(t_philo *philo);
-void	eat(t_philo *philo);
-void	drop_forks(t_philo *philo);
-void	think(t_philo *philo);
-void	sleep_philo(t_philo *philo);
+void				take_forks(t_philo *philo);
+void				eat(t_philo *philo);
+void				drop_forks(t_philo *philo);
+void				think(t_philo *philo);
+void				sleep_philo(t_philo *philo);
 
 // ft_error_and_free
 

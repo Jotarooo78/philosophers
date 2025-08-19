@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:39:46 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/19 16:11:10 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/19 17:16:46 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	init_philosophers(t_data *data)
 		data->philos[i].data = data;
 		data->philos[i].left_f = &data->forks[i];
 		data->philos[i].right_f = &data->forks[(i + 1) % data->nb_philos];
+		data->philos[i].last_meal_time = get_time();
 		i++;
 	}
 	return (0);
@@ -100,7 +101,7 @@ t_data	*init_data(char **argv)
 	data->time_to_sleep = ft_atoi(argv[4]);
 	if (argv[5])
 		data->meals_required = ft_atoi(argv[5]);
-    data->start = 0;
+	data->start = 0;
 	data->someone_died = 0;
 	if (parameters_check(data) != 0)
 		return (NULL);
@@ -116,12 +117,10 @@ t_data	*init_all_struct(char **argv)
 		return (NULL);
 	if (parameters_check(data) == 1)
 		return (printf("invalid args\n"), data->init_success = 0, data);
-	if (init_philosophers(data) != 0)
-		return (printf("philo alloc failed\n"), data->init_success = 0,
-			data);
 	if (init_mutex(data) != 0)
-		return (printf("mutex alloc failed\n"), data->init_success = 0,
-			data);
-    data->init_success = 1;
+		return (printf("mutex alloc failed\n"), data->init_success = 0, data);
+	if (init_philosophers(data) != 0)
+		return (printf("philo alloc failed\n"), data->init_success = 0, data);
+	data->init_success = 1;
 	return (data);
 }

@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:30:34 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/19 15:57:41 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/19 17:18:07 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int	simulation_done(t_philo *philos)
 	{
 		if (philos[i].meals_eaten == philos->data->meals_required)
 			philos->data->all_ate_enough++;
-		if (philos->data->philos->last_meal_time > philos->data->time_to_die)
+		if (philos[i].last_meal_time > 0 && (get_time()
+				- philos[i].last_meal_time) > philos->data->time_to_die)
 		{
 			philos->data->someone_died = 1;
 			pthread_mutex_lock(&philos->data->death_mutex);
@@ -53,7 +54,8 @@ int	simulation_done(t_philo *philos)
 		}
 		i++;
 	}
-	if (philos->data->all_ate_enough == philos->data->nb_philos)
+	if (philos->data->meals_required > 0
+		&& philos->data->all_ate_enough == philos->data->nb_philos)
 	{
 		return (1);
 	}
@@ -78,5 +80,5 @@ void	*rountine_philos(void *arg)
 		sleep_philo(philo);
 		i++;
 	}
-    return (NULL);
+	return (NULL);
 }

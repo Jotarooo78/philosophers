@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:04:17 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/19 15:42:00 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/19 16:55:22 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void     cleanup_data(t_data *data)
     if (data->philos)
         free(data->philos);
     if (data->threads)
-        free(data->philos);
+        free(data->threads);
     free(data);
     // tous les mettre a NULL ?
 }
