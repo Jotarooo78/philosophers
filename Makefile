@@ -6,7 +6,8 @@ SRC = src/main.c \
       src/init.c \
       src/errors.c \
       src/utils.c \
-      src/routine_philo.c
+      src/philo.c \
+	  src/routine.c
 
 OBJ_DIR = obj
 

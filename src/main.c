@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:53:24 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/19 10:46:05 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/19 13:41:39 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ int	main(int argc, char **argv)
 	if (arg_verif(argc, argv) == 1)
 		return (1);
 	data = init_all_struct(argc, argv);
-	if (data == NULL)
+	if (data->init_success == 0)
 		return (cleanup_struct(data), 1);
+	data->start_time = get_time();
+	data->start = 1;
 	return (cleanup_struct(data), 0);
 }

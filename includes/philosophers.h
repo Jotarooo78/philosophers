@@ -25,9 +25,11 @@ typedef struct s_data
 	long			time_to_eat;
 	long			time_to_sleep;
 	long			meals_required;
-	long			start_time;
 	int				someone_died;
 	int				all_ate_enough;
+	int				init_success;
+	int				start;
+	int				start_time;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	death_mutex;
 	pthread_mutex_t	print_mutex;
@@ -38,6 +40,12 @@ typedef struct s_data
 // init
 
 t_data				*init_all_struct(int argc, char **argv);
+
+// philo
+
+void				*rountine_philos(void *arg);
+void				print_routine(t_philo *philo, char *action);
+long long			get_time(void);
 
 // ft_error_and_free
 
