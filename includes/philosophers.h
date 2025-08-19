@@ -39,7 +39,7 @@ typedef struct s_data
 
 // init
 
-t_data				*init_all_struct(int argc, char **argv);
+t_data				*init_all_struct(char **argv);
 
 // philo
 

@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:04:17 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/18 16:14:56 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/19 15:00:39 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ int    cleanup_mutex(t_data *data)
             i++;
         }
     }
-    if (pthread_mutex_destroy(&data->death_mutex) != 0)
-        return (1);
+    if (data->someone_died == 1)
+        if (pthread_mutex_destroy(&data->death_mutex) != 0)
+            return (1);
     if (pthread_mutex_destroy(&data->print_mutex) != 0)
         return (1);
     return (0);

@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:14:59 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/19 14:25:55 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/19 14:35:17 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,20 @@ void	take_forks(t_philo *philo)
 	int	first;
 	int	second;
 
-	first = philo->left_f;
-	second = philo->right_f;
-	if (first > second)
-	{
-		pthread_mutex_lock(philo->right_f);
+    if (philo->left_f > philo->right_f)
+    {
+        first = philo->right_f;
+        second = philo->left_f;
+    }
+    else
+    {
+	    first = philo->left_f;
+	    second = philo->right_f;        
+    }
+		pthread_mutex_lock(first);
         print_routine(philo->id, "has taken a fork...");
-		pthread_mutex_lock(philo->left_f);
+		pthread_mutex_lock(second);
         print_routine(philo->id, "has taken a fork...");
-	}
-	else
-	{
-		pthread_mutex_lock(philo->left_f);
-        print_routine(philo->id, "has taken a fork...");
-		pthread_mutex_lock(philo->right_f);
-    	print_routine(philo->id, "has taken a fork...");
-	}
 }
 
 void	eat(t_philo *philo)

@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:30:34 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/19 14:10:24 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/19 15:01:28 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,13 @@ int	simulation_done(t_data *data)
 	{
 		if (data->philos[i].meals_eaten == data->meals_required)
 			data->all_ate_enough++;
-        if (data->someone_died == 1)
+        if (data->philos->last_meal_time > data->time_to_die)
+        {
+            data->someone_died = 1;
+            pthread_mutex_lock(&data->death_mutex);
+            print_routine(data->philos, "died");
             return (1);
+        }
 		i++;
 	}
     if (data->all_ate_enough == data->nb_philos)
