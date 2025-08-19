@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:39:46 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/18 15:42:28 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/18 16:30:08 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int    init_philosophers(t_data *data)
     return (0);
 }
 
-t_data 	*init_data(int argc, char **argv)
+t_data 	*init_data(char **argv)
 {
 	int		i;
     t_data *data;
@@ -94,14 +94,18 @@ t_data 	*init_data(int argc, char **argv)
 	if (argv[5])
 		data->meals_required = ft_atoi(argv[5]);
 	data->someone_died = 0;
+    if (parameters_check(data) != 0)
+        return (NULL);
 	return (data);
 }
 
-t_data 	*init_all_struct(int argc, char **argv)
+t_data 	*init_all_struct(char **argv)
 {
     t_data *data;
     
-    data = init_data(argc, argv);
+    data = init_data(argv);
+    if (data == NULL)
+        return (NULL);
     if (parameters_check(data) == 1)
 		return (free(data), ft_putstr_fd("invalid arg\n", 1), NULL);
     if (init_philosophers(data) != 0)

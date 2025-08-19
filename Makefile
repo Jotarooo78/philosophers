@@ -2,32 +2,37 @@ NAME = philo
 
 CC = cc
 
-SRC = 
+SRC = src/main.c \
+      src/init.c \
+      src/errors.c \
+      src/utils.c \
+      src/routine_philo.c
 
-INCLUDES = includes/so_long.h
+OBJ_DIR = obj
 
-OBJ = $(SRC:.c=.o)
+OBJ = $(SRC:src/%.c=$(OBJ_DIR)/%.o)
 
-CFLAGS = -Wall -Wextra -Werror -g -lpthread
+INCLUDES = includes/philosophers.h
 
-all: $(LIBFT) $(NAME)
+CFLAGS = -Wall -Wextra -Werror -g
+LDFLAGS = -lpthread
 
-$(LIBFT):
-	$(MAKE) -C
+all: $(NAME)
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+$(OBJ_DIR)/%.o: src/%.c $(INCLUDES) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -Iincludes -c $< -o $@
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ)-o $(NAME)
-
-.c.o:
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(OBJ) -o $(NAME) $(LDFLAGS)
 
 clean:
-	rm -rf $(OBJ)
-	$(MAKE) -C clean
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	rm -rf $(NAME)
-	$(MAKE) -C fclean
 
 re: fclean all
 
