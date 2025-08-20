@@ -13,6 +13,7 @@ typedef struct s_philo
 	int				id;
 	int				meals_eaten;
 	int				last_meal_time;
+	pthread_mutex_t	meal_time;
 	pthread_mutex_t	*left_f;
 	pthread_mutex_t	*right_f;
 	struct s_data	*data;
@@ -45,15 +46,14 @@ t_data				*init_all_struct(char **argv);
 // philo
 
 void				*rountine_philos(void *arg);
-void				print_routine(t_philo *philo, char *action);
+void				print_routine(t_philo *philo, char *action, char *color);
 
 // action
 
 void				take_forks(t_philo *philo);
 void				eat(t_philo *philo);
 void				drop_forks(t_philo *philo);
-void				think(t_philo *philo);
-void				sleep_philo(t_philo *philo);
+void				think_and_sleep(t_philo *philo, char *action);
 
 // routine utils
 

@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 11:50:15 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/20 13:40:50 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/20 14:51:31 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int 	all_ate_enough(t_data *data)
     int i;
 
     i = 0;
+    if (data->someone_died == 1)
+        return (1);
     data->all_ate_enough = 0;
     while (i < data->nb_philos)
     {
@@ -33,17 +35,16 @@ int 	all_ate_enough(t_data *data)
 
 int death_by_starvation(t_philo *philo)
 {
-    int i;
+    long time_since_last_meal;
 
-    i = 0;
-    while (i < philo->data->nb_philos)
+    if (philo->data->someone_died == 1)
+        return (1);
+    time_since_last_meal = get_current_time(philo->data) - philo->last_meal_time;
+    if (time_since_last_meal >= philo->data->time_to_die)
     {
-        if (philo[i].last_meal_time >= philo->data->time_to_die)
-        {
-            print_routine(philo, "died");
-            return (1);
-        }
-        i++;
+        printf("%ld\n", time_since_last_meal);
+        print_routine(philo, "died", "\033[33m");
+        return (1);
     }
     return (0);
 }
@@ -67,4 +68,3 @@ long get_current_time(t_data *data)
     current = get_time();
     return (current - data->start_time);
 }
-

@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:39:46 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/20 13:26:20 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/20 14:47:01 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	init_mutex(t_data *data)
 			}
 		i++;
 	}
+	if (pthread_mutex_init(&data->philos->meal_time, NULL) != 0)
+		return (pthread_mutex_destroy(&data->philos->meal_time), 1);
 	if (pthread_mutex_init(&data->death_mutex, NULL) != 0)
 		return (pthread_mutex_destroy(&data->death_mutex), 1);
 	if (pthread_mutex_init(&data->print_mutex, NULL) != 0)
@@ -80,7 +82,6 @@ int	init_philosophers(t_data *data)
 		data->philos[i].data = data;
 		data->philos[i].left_f = &data->forks[i];
 		data->philos[i].right_f = &data->forks[(i + 1) % data->nb_philos];
-		data->philos[i].last_meal_time = get_time();
 		i++;
 	}
 	return (0);
