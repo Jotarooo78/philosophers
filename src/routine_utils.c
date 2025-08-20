@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 11:50:15 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/20 14:51:31 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:32:26 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int death_by_starvation(t_philo *philo)
     if (time_since_last_meal >= philo->data->time_to_die)
     {
         printf("%ld\n", time_since_last_meal);
-        print_routine(philo, "died", "\033[33m");
+        print_routine(philo, "died", "\033[31m");
         return (1);
     }
     return (0);

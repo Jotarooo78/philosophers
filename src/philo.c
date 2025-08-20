@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:30:34 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/20 15:17:09 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/20 16:11:22 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	print_routine(t_philo *philo, char *action, char *color)
 	printf("%s%ld philo %d %s\n", color, time, philo->id, action);
 	pthread_mutex_unlock(&philo->data->print_mutex);
 }
-// mettre a jour someone_dead;
 
 int	simulation_done(t_philo *philo)
 {
@@ -47,16 +46,13 @@ void	*rountine_philos(void *arg)
 		usleep(100);
 	while (simulation_done(philo) == 0)
 	{
+		take_forks(philo);
+		eat(philo);
+		drop_forks(philo);
 		if (simulation_done(philo) == 0)
-			take_forks(philo);
+			sleep_philo(philo);
 		if (simulation_done(philo) == 0)
-			eat(philo);
-		if (simulation_done(philo) == 0)
-			drop_forks(philo);
-		if (simulation_done(philo) == 0)
-			think_and_sleep(philo, "is sleeping...");
-		if (simulation_done(philo) == 0)			
-			think_and_sleep(philo, "is thinking...");			
+			think(philo);			
 		i++;
 	}
 	return (NULL);

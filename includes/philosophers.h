@@ -53,7 +53,8 @@ void				print_routine(t_philo *philo, char *action, char *color);
 void				take_forks(t_philo *philo);
 void				eat(t_philo *philo);
 void				drop_forks(t_philo *philo);
-void				think_and_sleep(t_philo *philo, char *action);
+void				think(t_philo *philo);
+void				sleep_philo(t_philo *philo);
 
 // routine utils
 
