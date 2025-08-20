@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 11:50:15 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/20 12:08:38 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/20 13:25:48 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ int 	all_ate_enough(t_data *data)
         i++;
     }
     if (data->all_ate_enough == data->nb_philos)
+    {
+        printf("end\n");
         return (1);
+    }
     return (0);
 }
 

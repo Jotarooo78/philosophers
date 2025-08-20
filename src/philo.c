@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:30:34 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/20 13:13:14 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/20 13:28:00 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,20 @@ void	print_routine(t_philo *philo, char *action)
 int	simulation_done(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->death_mutex);
-	printf("simu\n");
-	if (all_ate_enough(philo->data) == 1)
-			return (1);
+	if (philo->data->meals_required != 0)
+		if (all_ate_enough(philo->data) == 1)
+				return (1);
 	if (death_by_starvation(philo) == 1)
 		return (1);
+	printf("starve\n");
 	if (philo->data->someone_died == 1)
-	{	
+	{
+		printf("is_died ?");
 		pthread_mutex_lock(&philo->data->death_mutex);
 		return (1);
-	}	
+	}
 	pthread_mutex_lock(&philo->data->death_mutex);
+	printf("end\n");
 	return (0);
 }
 

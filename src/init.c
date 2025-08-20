@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:39:46 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/19 17:16:46 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/20 13:26:20 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ t_data	*init_data(char **argv)
 	data->time_to_sleep = ft_atoi(argv[4]);
 	if (argv[5])
 		data->meals_required = ft_atoi(argv[5]);
+	else
+		data->meals_required = 0;
 	data->start = 0;
 	data->someone_died = 0;
 	if (parameters_check(data) != 0)
