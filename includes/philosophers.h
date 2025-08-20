@@ -26,8 +26,7 @@ typedef struct s_data
 	long			time_to_eat;
 	long			time_to_sleep;
 	long			meals_required;
-	int				someone_died;
-	int				all_ate_enough;
+	int				is_over;
 	int				init_success;
 	int				start;
 	long			start_time;
@@ -46,7 +45,7 @@ t_data				*init_all_struct(char **argv);
 // philo
 
 void				*rountine_philos(void *arg);
-void				print_routine(t_philo *philo, char *action, char *color);
+void				print_status(t_philo *philo, char *action, char *color);
 
 // action
 
@@ -56,12 +55,16 @@ void				drop_forks(t_philo *philo);
 void				think(t_philo *philo);
 void				sleep_philo(t_philo *philo);
 
+// end conditions
+
+void				check_is_over(t_data *data);
+
 // routine utils
 
 long				get_current_time(t_data *data);
 long				get_time(void);
 int					death_by_starvation(t_philo *philo);
-int					all_ate_enough(t_data *data);
+int					all_ate_enough(t_philo *philo);
 
 // ft_error_and_free
 

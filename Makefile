@@ -9,6 +9,7 @@ SRC = src/main.c \
       src/philo.c \
 	  src/routine.c \
 	  src/routine_utils.c \
+	  src/end_conditions.c \
 
 OBJ_DIR = obj
 

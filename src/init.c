@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:39:46 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/20 15:12:35 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/20 16:48:44 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	init_mutex(t_data *data)
 		return (1);
 	while (i < data->nb_philos)
 	{
-		if (pthread_mutex_init(&data->forks[i], NULL) != 0 && pthread_mutex_init(&data->philos[i].meal_time, NULL) != 0)
+		if (pthread_mutex_init(&data->forks[i], NULL) != 0
+			&& pthread_mutex_init(&data->philos[i].meal_time, NULL) != 0)
 			while (i > 0)
 			{
 				pthread_mutex_destroy(&data->forks[i]);
@@ -52,7 +53,7 @@ int	init_threads(t_data *data)
 		if (pthread_create(&data->threads[i], NULL, &rountine_philos,
 				&data->philos[i]) != 0)
 		{
-			data->someone_died = 1;
+			data->is_over = 1;
 			while (i > 0)
 			{
 				pthread_join(data->threads[i], NULL);
@@ -104,7 +105,7 @@ t_data	*init_data(char **argv)
 	else
 		data->meals_required = 0;
 	data->start = 0;
-	data->someone_died = 0;
+	data->is_over = 0;
 	if (parameters_check(data) != 0)
 		return (NULL);
 	return (data);
@@ -126,3 +127,4 @@ t_data	*init_all_struct(char **argv)
 	data->init_success = 1;
 	return (data);
 }
+

@@ -6,14 +6,14 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:30:34 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/20 16:11:22 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/20 17:59:04 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
 
-void	print_routine(t_philo *philo, char *action, char *color)
+void	print_status(t_philo *philo, char *action, char *color)
 {
 	long	time;
 
@@ -26,7 +26,7 @@ void	print_routine(t_philo *philo, char *action, char *color)
 int	simulation_done(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->death_mutex);
-	if (philo->data->someone_died == 1)
+	if (philo->data->is_over == 1)
 	{
 		pthread_mutex_unlock(&philo->data->death_mutex);
 		return (1);
