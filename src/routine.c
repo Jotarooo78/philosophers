@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:14:59 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/19 17:14:44 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/20 13:10:25 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,26 @@ void	take_forks(t_philo *philo)
 void	eat(t_philo *philo)
 {
 	print_routine(philo, "is eating...");
-	philo->last_meal_time = get_time();
     philo->meals_eaten++;
+	philo->last_meal_time = philo->data->start_time - get_current_time(philo->data);
 	usleep(philo->data->time_to_eat * 1000);
 }
 
 void	drop_forks(t_philo *philo)
 {
+	pthread_mutex_t	*first;
+	pthread_mutex_t	*second;
+
+    if (philo->left_f > philo->right_f)
+    {
+        first = philo->right_f;
+        second = philo->left_f;
+    }
+    else
+    {
+	    first = philo->left_f;
+	    second = philo->right_f;        
+    }
 	pthread_mutex_unlock(philo->left_f);
 	pthread_mutex_unlock(philo->right_f);
 }

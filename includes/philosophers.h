@@ -29,7 +29,7 @@ typedef struct s_data
 	int				all_ate_enough;
 	int				init_success;
 	int				start;
-	int				start_time;
+	long			start_time;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	death_mutex;
 	pthread_mutex_t	print_mutex;
@@ -46,7 +46,6 @@ t_data				*init_all_struct(char **argv);
 
 void				*rountine_philos(void *arg);
 void				print_routine(t_philo *philo, char *action);
-long long			get_time(void);
 
 // action
 
@@ -55,6 +54,13 @@ void				eat(t_philo *philo);
 void				drop_forks(t_philo *philo);
 void				think(t_philo *philo);
 void				sleep_philo(t_philo *philo);
+
+// routine utils
+
+long				get_current_time(t_data *data);
+long				get_time(void);
+int					death_by_starvation(t_philo *philo);
+int					all_ate_enough(t_data *data);
 
 // ft_error_and_free
 
