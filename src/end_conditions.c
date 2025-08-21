@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:30:47 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/21 11:54:18 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/21 12:06:57 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ int	death_by_starvation(t_philo *philo, int i)
 		return (1);
 	pthread_mutex_lock(&philo[i].meal_time);
 	printf("p-id %d ; last meal : %ld ; time to die : %ld ; current_time : %ld\n", philo[i].id ,philo[i].last_meal_time, philo->data->time_to_die, get_current_time(philo->data));
-	if (philo[i].last_meal_time >= philo->data->time_to_die)
+	if ((get_current_time(philo->data) - philo[i].last_meal_time) >= philo->data->time_to_die)
 	{
 		pthread_mutex_lock(&philo->data->death_mutex);
-		print_status(philo, "died", "\033[31m");
+		print_status(&philo[i], "died", "\033[31m");
 		philo->data->is_over = 1;
 		pthread_mutex_unlock(&philo->data->death_mutex);
 		pthread_mutex_unlock(&philo[i].meal_time);

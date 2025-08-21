@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:39:46 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/21 10:45:37 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/21 12:08:40 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	init_mutex(t_data *data)
 	while (i < data->nb_philos)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL) != 0
-			&& pthread_mutex_init(&data->philos[i].meal_time, NULL) != 0)
+			&& pthread_mutex_init(&data->philos[i].meal_time, NULL) != 0) // segfault si || a la place de &&
 			while (i > 0)
 			{
 				pthread_mutex_destroy(&data->forks[i]);
