@@ -12,7 +12,7 @@ typedef struct s_philo
 {
 	int				id;
 	int				meals_eaten;
-	int				last_meal_time;
+	long			last_meal_time;
 	pthread_mutex_t	meal_time;
 	pthread_mutex_t	*left_f;
 	pthread_mutex_t	*right_f;
@@ -57,14 +57,12 @@ void				sleep_philo(t_philo *philo);
 
 // end conditions
 
-void				check_is_over(t_data *data);
+void				check_is_over(t_data *data, char **argv);
 
 // routine utils
 
 long				get_current_time(t_data *data);
 long				get_time(void);
-int					death_by_starvation(t_philo *philo);
-int					all_ate_enough(t_philo *philo);
 
 // ft_error_and_free
 
@@ -75,6 +73,6 @@ int					cleanup_struct(t_data *data);
 int					ft_atoi(const char *nbr);
 int					is_digit(char *str);
 int					arg_verif(int argc, char **argv);
-int					parameters_check(t_data *data);
+int					parameters_check(t_data *data, char **argv);
 
 #endif

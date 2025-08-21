@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:05:37 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/19 16:07:01 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/21 10:45:09 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,13 @@ int	arg_verif(int argc, char **argv)
 	return (0);
 }
 
-int	parameters_check(t_data *data)
+int	parameters_check(t_data *data, char **argv)
 {
-	if ((data->meals_required && data->meals_required < 1))
-		return (1);
+	if (argv[5])
+	{
+		if (data->meals_required < 1)
+			return (1);
+	}
 	if (data->nb_philos < 1 || data->time_to_die < 1 || data->time_to_eat < 1
 		|| data->time_to_sleep < 1)
 		return (1);

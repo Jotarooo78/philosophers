@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:39:46 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/20 16:48:44 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/21 10:45:37 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,7 @@ t_data	*init_data(char **argv)
 		data->meals_required = 0;
 	data->start = 0;
 	data->is_over = 0;
-	if (parameters_check(data) != 0)
-		return (NULL);
+
 	return (data);
 }
 
@@ -118,7 +117,7 @@ t_data	*init_all_struct(char **argv)
 	data = init_data(argv);
 	if (data == NULL)
 		return (NULL);
-	if (parameters_check(data) == 1)
+	if (parameters_check(data, argv) == 1)
 		return (printf("invalid args\n"), data->init_success = 0, data);
 	if (init_mutex(data) != 0)
 		return (printf("mutex alloc failed\n"), data->init_success = 0, data);
