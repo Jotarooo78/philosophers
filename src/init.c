@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:39:46 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/21 14:00:48 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/21 14:05:16 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ int	alloc_struct(t_data *data, char **argv)
 	return (0);
 }
 
-
-int global_mutex(t_data *data)
+int	global_mutex(t_data *data)
 {
 	if (pthread_mutex_init(&data->death_mutex, NULL) != 0)
 		return (pthread_mutex_destroy(&data->death_mutex), 1);
@@ -42,7 +41,7 @@ int global_mutex(t_data *data)
 	return (0);
 }
 
-int init_philo_mutex(t_data *data, int i)
+int	init_philo_mutex(t_data *data, int i)
 {
 	if (pthread_mutex_init(&data->forks[i], NULL) != 0)
 	{
@@ -88,7 +87,7 @@ int	init_philosophers(t_data *data)
 
 int	init_data(t_data *data, char **argv)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	data->nb_philos = ft_atoi(argv[1]);
