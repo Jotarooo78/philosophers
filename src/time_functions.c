@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 11:50:15 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/21 17:05:22 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/21 17:51:16 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,7 @@ long 	get_time_last_meal(t_philo *philo)
 	long current;
 	
     current = get_time();
+	if (philo->last_meal_time == 0)
+		return (current - philo->data->start_time);
 	return (current - philo->last_meal_time);
 }
