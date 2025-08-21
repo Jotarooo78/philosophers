@@ -6,19 +6,20 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:30:34 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/21 16:27:18 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/21 17:39:37 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-
 void	print_status(t_philo *philo, char *action, char *color)
 {
 	long	time;
 
-	pthread_mutex_lock(&philo->data->print_mutex);
+	// if (simulation_done(philo) == 1)
+	// 	return ;
 	time = (get_current_time(philo->data));
+	pthread_mutex_lock(&philo->data->print_mutex);
 	printf("%s%ld philo %d %s\n", color, time, philo->id, action);
 	pthread_mutex_unlock(&philo->data->print_mutex);
 }
@@ -53,10 +54,9 @@ void	*rountine_philos(void *arg)
 		{
 			sleep_philo(philo);
 			if (simulation_done(philo) == 0)
-				think(philo);			
+				think(philo);
 		}
 		i++;
 	}
 	return (NULL);
 }
-

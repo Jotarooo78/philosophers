@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:14:59 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/21 16:55:56 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/21 17:36:27 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ void	eat(t_philo *philo)
 		return ;
 	pthread_mutex_lock(&philo->meal_time);
 	// print_status(philo, "is eating...", "\033[36m");
+	pthread_mutex_lock(&philo->meal_total);
 	philo->meals_eaten++;
-	philo->last_meal_time = get_current_time(philo->data);
+	pthread_mutex_unlock(&philo->meal_total);
+	philo->last_meal_time = get_time();
 	pthread_mutex_unlock(&philo->meal_time);
 	usleep(philo->data->time_to_eat * 1000);
 }
@@ -60,12 +62,24 @@ void	drop_forks(t_philo *philo)
 
 void	think(t_philo *philo)
 {
+	if (simulation_done(philo) != 0)
+		return ;
 	// print_status(philo, "is thinking", "\033[34m");
-	usleep(philo->data->time_to_eat * 1000);
+	usleep(philo->data->time_to_sleep * 1000);
 }
 
 void	sleep_philo(t_philo *philo)
 {
+	long start_time;
+
+	start_time = get_time();
+	while (1)
+	{
+		if (simulation_done(philo) != 0)
+			return ;
+		if ((get_time() - start_time) >= philo->data->time_to_sleep)
+			return ;
+		usleep(200);
+	}
 	// print_status(philo, "is sleeping", "\033[35m");
-	usleep(philo->data->time_to_sleep * 1000);
 }

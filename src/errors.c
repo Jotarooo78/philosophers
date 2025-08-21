@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:04:17 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/21 13:58:14 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/21 17:25:42 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ int    destroy_mutex(t_data *data)
                 if (pthread_mutex_destroy(&data->forks[i]) != 0)
                     return (1);
                 if (pthread_mutex_destroy(&data->philos[i].meal_time) != 0)
-                return (1);
+                    return (1);
+                if (pthread_mutex_destroy(&data->philos[i].meal_total) != 0)
+                    return (1);
             }
             i++;
         }
