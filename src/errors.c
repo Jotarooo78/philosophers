@@ -6,13 +6,13 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:04:17 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/20 15:14:39 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/21 13:58:14 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int    cleanup_threads(t_data *data)
+int    join_threads(t_data *data)
 {
     int i;
 
@@ -29,7 +29,7 @@ int    cleanup_threads(t_data *data)
     return (0);
 }
 
-int    cleanup_mutex(t_data *data)
+int    destroy_mutex(t_data *data)
 {
     int i;
 
@@ -56,24 +56,15 @@ int    cleanup_mutex(t_data *data)
     return (0);
 }
 
-void     cleanup_data(t_data *data)
+int    cleanup_struct(t_data *data)
 {
-    if (data == NULL)
-        return ;
+    if (join_threads(data) != 0)
+        return (1);
+    if (destroy_mutex(data) != 0)
+        return (1);
     if (data->philos)
         free(data->philos);
     if (data->threads)
         free(data->threads);
-    free(data);
-    // tous les mettre a NULL ?
-}
-
-int    cleanup_struct(t_data *data)
-{
-    if (cleanup_threads(data) != 0)
-        return (1);
-    if (cleanup_mutex(data) != 0)
-        return (1);
-    cleanup_data(data);
     return (0);
 }

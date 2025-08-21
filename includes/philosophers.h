@@ -27,7 +27,6 @@ typedef struct s_data
 	long			time_to_sleep;
 	long			meals_required;
 	int				is_over;
-	int				init_success;
 	int				start;
 	long			start_time;
 	pthread_mutex_t	*forks;
@@ -39,8 +38,8 @@ typedef struct s_data
 
 // init
 
-int					init_threads(t_data *data);
-t_data				*init_all_struct(char **argv);
+void				init_threads(t_data *data);
+int					init_all_struct(t_data *data, char **argv);
 
 // philo
 

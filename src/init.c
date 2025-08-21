@@ -6,62 +6,62 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:39:46 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/21 12:08:40 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/21 14:00:48 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	init_mutex(t_data *data)
+int	alloc_struct(t_data *data, char **argv)
 {
-	int	i;
+	int	nb_philo;
 
-	i = 0;
-	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philos);
+	nb_philo = ft_atoi(argv[1]);
+	data->philos = malloc(sizeof(t_philo) * nb_philo);
+	if (data->philos == NULL)
+		return (free(data), 1);
+	data->forks = malloc(sizeof(pthread_mutex_t) * nb_philo);
 	if (!data->forks)
-		return (1);
-	while (i < data->nb_philos)
-	{
-		if (pthread_mutex_init(&data->forks[i], NULL) != 0
-			&& pthread_mutex_init(&data->philos[i].meal_time, NULL) != 0) // segfault si || a la place de &&
-			while (i > 0)
-			{
-				pthread_mutex_destroy(&data->forks[i]);
-				pthread_mutex_destroy(&data->philos[i].meal_time);
-				i--;
-				return (1);
-			}
-		i++;
-	}
-	if (pthread_mutex_init(&data->death_mutex, NULL) != 0)
-		return (pthread_mutex_destroy(&data->death_mutex), 1);
-	if (pthread_mutex_init(&data->print_mutex, NULL) != 0)
-		return (pthread_mutex_destroy(&data->print_mutex), 1);
+		return (free(data->forks), free(data), 1);
+	data->threads = malloc(sizeof(pthread_t) * nb_philo);
+	if (!data->threads)
+		return (free(data->threads), free(data->forks), free(data), 1);
 	return (0);
 }
 
-int	init_threads(t_data *data)
-{
-	int	i;
 
-	i = 0;
-	data->threads = malloc(sizeof(pthread_t) * data->nb_philos);
-	if (!data->threads)
-		return (1);
-	while (i < data->nb_philos)
+int global_mutex(t_data *data)
+{
+	if (pthread_mutex_init(&data->death_mutex, NULL) != 0)
+		return (pthread_mutex_destroy(&data->death_mutex), 1);
+	if (pthread_mutex_init(&data->print_mutex, NULL) != 0)
 	{
-		if (pthread_create(&data->threads[i], NULL, &rountine_philos,
-				&data->philos[i]) != 0)
+		pthread_mutex_destroy(&data->death_mutex);
+		return (pthread_mutex_destroy(&data->print_mutex), 1);
+	}
+	return (0);
+}
+
+int init_philo_mutex(t_data *data, int i)
+{
+	if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+	{
+		while (i > 0)
 		{
-			data->is_over = 1;
-			while (i > 0)
-			{
-				pthread_join(data->threads[i], NULL);
-				i--;
-				return (1);
-			}
+			pthread_mutex_destroy(&data->forks[i]);
+			i--;
+			return (1);
 		}
-		i++;
+	}
+	if (pthread_mutex_init(&data->philos[i].meal_time, NULL) != 0)
+	{
+		while (i > 0)
+		{
+			pthread_mutex_destroy(&data->forks[i]);
+			pthread_mutex_destroy(&data->philos[i].meal_time);
+			i--;
+			return (1);
+		}
 	}
 	return (0);
 }
@@ -71,15 +71,14 @@ int	init_philosophers(t_data *data)
 	int	i;
 
 	i = 0;
-	data->philos = malloc(sizeof(t_philo) * data->nb_philos);
-	if (data->philos == NULL)
-		return (1);
 	while (i < data->nb_philos)
 	{
 		data->philos[i].id = i + 1;
 		data->philos[i].meals_eaten = 0;
-		data->philos[i].last_meal_time = 0;
 		data->philos[i].data = data;
+		data->philos[i].last_meal_time = 0;
+		if (init_philo_mutex(data, i) != 0)
+			return (printf("init philo mutex\n"), 1);
 		data->philos[i].left_f = &data->forks[i];
 		data->philos[i].right_f = &data->forks[(i + 1) % data->nb_philos];
 		i++;
@@ -87,15 +86,11 @@ int	init_philosophers(t_data *data)
 	return (0);
 }
 
-t_data	*init_data(char **argv)
+int	init_data(t_data *data, char **argv)
 {
 	int		i;
-	t_data	*data;
 
 	i = 0;
-	data = malloc(sizeof(t_data));
-	if (data == NULL)
-		return (NULL);
 	data->nb_philos = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
@@ -106,24 +101,20 @@ t_data	*init_data(char **argv)
 		data->meals_required = 0;
 	data->start = 0;
 	data->is_over = 0;
-
-	return (data);
+	if (global_mutex(data) != 0)
+		return (1);
+	return (0);
 }
 
-t_data	*init_all_struct(char **argv)
+int	init_all_struct(t_data *data, char **argv)
 {
-	t_data	*data;
-
-	data = init_data(argv);
-	if (data == NULL)
-		return (NULL);
+	if (alloc_struct(data, argv) == 1)
+		return (printf("alloc failed\n"), 1);
+	if (init_data(data, argv) != 0)
+		return (printf("init data failed\n"), 1);
 	if (parameters_check(data, argv) == 1)
-		return (printf("invalid args\n"), data->init_success = 0, data);
-	if (init_mutex(data) != 0)
-		return (printf("mutex alloc failed\n"), data->init_success = 0, data);
+		return (printf("invalid args\n"), 1);
 	if (init_philosophers(data) != 0)
-		return (printf("philo alloc failed\n"), data->init_success = 0, data);
-	data->init_success = 1;
-	return (data);
+		return (1);
+	return (0);
 }
-
