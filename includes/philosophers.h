@@ -43,9 +43,9 @@ int					init_all_struct(t_data *data, char **argv);
 
 // philo
 
+int					simulation_done(t_philo *philo);
 void				*rountine_philos(void *arg);
-void				print_status(t_philo *philo, char *action,
-						char *color);
+void				print_status(t_philo *philo, char *action, char *color);
 
 // action
 
@@ -59,7 +59,7 @@ void				sleep_philo(t_philo *philo);
 
 void				check_is_over(t_data *data, char **argv);
 
-// routine utils
+// time functions
 
 long				get_current_time(t_data *data);
 long				get_time(void);
@@ -69,11 +69,15 @@ long				get_time_last_meal(t_philo *philo);
 
 int					cleanup_struct(t_data *data);
 
-// utils
+// parcing
 
 int					ft_atoi(const char *nbr);
 int					is_digit(char *str);
 int					arg_verif(int argc, char **argv);
 int					parameters_check(t_data *data, char **argv);
+
+// utils
+
+int					determine_priority(int n);
 
 #endif

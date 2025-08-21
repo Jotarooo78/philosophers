@@ -8,8 +8,9 @@ SRC = src/main.c \
       src/utils.c \
       src/philo.c \
 	  src/routine.c \
-	  src/routine_utils.c \
 	  src/end_conditions.c \
+	  src/time_functions.c \
+	  src/parcing.c \
 
 OBJ_DIR = obj
 
