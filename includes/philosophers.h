@@ -44,7 +44,8 @@ int					init_all_struct(t_data *data, char **argv);
 // philo
 
 void				*rountine_philos(void *arg);
-void				print_status(t_philo *philo, char *action, char *color);
+void				print_status(t_philo *philo, char *action,
+						char *color);
 
 // action
 
@@ -62,6 +63,7 @@ void				check_is_over(t_data *data, char **argv);
 
 long				get_current_time(t_data *data);
 long				get_time(void);
+long				get_time_last_meal(t_philo *philo);
 
 // ft_error_and_free
 
