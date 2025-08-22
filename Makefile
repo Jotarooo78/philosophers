@@ -18,8 +18,8 @@ OBJ = $(SRC:src/%.c=$(OBJ_DIR)/%.o)
 
 INCLUDES = includes/philosophers.h
 
-CFLAGS = -Wall -Wextra -Werror -g
-LDFLAGS = -lpthread
+CFLAGS = -Wall -Wextra -Werror 
+LDFLAGS = -pthread -g3
 
 all: $(NAME)
 

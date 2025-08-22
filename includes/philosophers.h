@@ -80,5 +80,6 @@ int					parameters_check(t_data *data, char **argv);
 // utils
 
 int					determine_priority(int n);
+int					routine_alone(t_data *data);
 
 #endif

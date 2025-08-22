@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:30:34 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/22 15:40:41 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/22 18:56:07 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	print_status(t_philo *philo, char *action, char *color)
 
 	time = (get_current_time(philo->data));
 	if (simulation_done(philo) == 1)
-		return ;	
+		return ;
 	pthread_mutex_lock(&philo->data->print_mutex);
-	printf("%s%ld philo %d %s\n", color, time, philo->id, action);
+	printf("%s%ld %d %s\n", color, time, philo->id, action);
 	pthread_mutex_unlock(&philo->data->print_mutex);
 }
 

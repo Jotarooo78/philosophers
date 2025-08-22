@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:30:47 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/22 17:43:20 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/22 17:56:41 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,9 @@ int	all_ate_enough(t_philo *philo)
 
 void	alone_philo_death(t_data *data)
 {
-	long start;
-
-	start = data->start_time;
 	while (1)
 	{
-		printf("blocked here\n");
-		if (get_current_time(data) - start >= data->time_to_die)
+		if (get_current_time(data) >= data->time_to_die)
 		{
 			print_status(data->philos, "died", "\033[31m");
 			pthread_mutex_lock(&data->death_mutex);
