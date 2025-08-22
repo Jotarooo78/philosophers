@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:14:59 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/21 17:57:57 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/22 11:40:42 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	take_forks(t_philo *philo)
 {
-	if (simulation_done(philo) != 0)
+	if (simulation_done(philo) == 1)
 		return ;
 	if (determine_priority(philo->id))
 	{
@@ -34,7 +34,7 @@ void	take_forks(t_philo *philo)
 
 void	eat(t_philo *philo)
 {
-	if (simulation_done(philo) != 0)
+	if (simulation_done(philo) == 1)
 		return ;
 	pthread_mutex_lock(&philo->meal_time);
 	print_status(philo, "is eating...", "\033[36m");
@@ -48,6 +48,8 @@ void	eat(t_philo *philo)
 
 void	drop_forks(t_philo *philo)
 {
+	if (simulation_done(philo) == 1)
+		return ;
 	if (determine_priority(philo->id))
 	{
 		pthread_mutex_unlock(philo->left_f);
@@ -62,7 +64,7 @@ void	drop_forks(t_philo *philo)
 
 void	think(t_philo *philo)
 {
-	if (simulation_done(philo) != 0)
+	if (simulation_done(philo) == 1)
 		return ;
 	print_status(philo, "is thinking", "\033[34m");
 	usleep(philo->data->time_to_sleep * 1000);
@@ -70,9 +72,7 @@ void	think(t_philo *philo)
 
 void	sleep_philo(t_philo *philo)
 {
-	long start;
-
-	if (simulation_done(philo) != 0)
+	if (simulation_done(philo) == 1)
 		return ;
 	usleep(philo->data->time_to_sleep * 1000);
 	print_status(philo, "is sleeping", "\033[35m");
