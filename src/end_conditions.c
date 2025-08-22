@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:30:47 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/22 11:59:08 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/22 12:09:54 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	death_by_starvation(t_philo *philo, int i)
 	long last_meal;
 	
 	pthread_mutex_lock(&philo[i].meal_time);
-	last_meal = get_time_last_meal(philo);
+	last_meal = get_time_last_meal(&philo[i]);
 	if (last_meal >= philo->data->time_to_die)
 	{
 		print_status(&philo[i], "died", "\033[31m");
@@ -83,5 +83,6 @@ void	check_is_over(t_data *data, char **argv)
 			if (all_ate_enough(data->philos) != 0)
 				return ;
 		}
+		usleep(500);
 	}
 }

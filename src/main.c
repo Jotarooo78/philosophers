@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:53:24 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/21 13:56:24 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/22 12:22:07 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	main(int argc, char **argv)
 	if (init_all_struct(&data, argv) != 0)
 		return (cleanup_struct(&data), 1);
 	data.start_time = get_time();
+	// if (argv[1] == 1)
+		// alone_philo();
 	init_threads(&data);
 	check_is_over(&data, argv);
 	return (cleanup_struct(&data));

@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:14:59 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/22 11:51:36 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/22 12:09:25 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,17 @@ void	take_forks(t_philo *philo)
 		return ;
 	if (determine_priority(philo->id))
 	{
-		print_status(philo, "has taken a fork...", "\033[39m");
 		pthread_mutex_lock(philo->left_f);
 		print_status(philo, "has taken a fork...", "\033[39m");
 		pthread_mutex_lock(philo->right_f);
+		print_status(philo, "has taken a fork...", "\033[39m");
 	}
 	else
 	{
-		print_status(philo, "has taken a fork...", "\033[39m");
 		pthread_mutex_lock(philo->right_f);
 		print_status(philo, "has taken a fork...", "\033[39m");
 		pthread_mutex_lock(philo->left_f);
+		print_status(philo, "has taken a fork...", "\033[39m");
 	}
 }
 
@@ -67,7 +67,7 @@ void	think(t_philo *philo)
 	if (simulation_done(philo) == 1)
 		return ;
 	print_status(philo, "is thinking", "\033[34m");
-	usleep(philo->data->time_to_sleep * 1000);
+	// usleep(philo->data->time_to_sleep * 1000);
 }
 
 void	sleep_philo(t_philo *philo)
