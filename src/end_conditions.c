@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:30:47 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/21 17:08:29 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/22 11:59:08 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 int	death_by_starvation(t_philo *philo, int i)
 {
+	long last_meal;
+	
 	pthread_mutex_lock(&philo[i].meal_time);
-	if (get_time_last_meal(philo) >= philo->data->time_to_die)
+	last_meal = get_time_last_meal(philo);
+	if (last_meal >= philo->data->time_to_die)
 	{
-		printf("last meal : %ld\n", philo[i].last_meal_time);
-		pthread_mutex_lock(&philo->data->death_mutex);
 		print_status(&philo[i], "died", "\033[31m");
+		// printf("last meal : %ld\n", philo[i].last_meal_time);
+		pthread_mutex_lock(&philo->data->death_mutex);
 		philo->data->is_over = 1;
 		pthread_mutex_unlock(&philo->data->death_mutex);
 		pthread_mutex_unlock(&philo[i].meal_time);
@@ -28,6 +31,13 @@ int	death_by_starvation(t_philo *philo, int i)
 	pthread_mutex_unlock(&philo[i].meal_time);
 	return (0);
 }
+
+// int	death_by_starvation(t_philo *philo, int i)
+// {
+// 	(void)philo;
+// 	i = 0;
+// 	return (0);
+// }
 
 int	all_ate_enough(t_philo *philo)
 {
@@ -38,16 +48,16 @@ int	all_ate_enough(t_philo *philo)
 	i = 0;
 	while (i < philo->data->nb_philos)
 	{
-		pthread_mutex_lock(&philo[i].meal_time);
+		pthread_mutex_lock(&philo[i].meal_total);
 		if (philo[i].meals_eaten >= philo->data->meals_required)
 			all_ate_enough++;
-		pthread_mutex_unlock(&philo[i].meal_time);
+		pthread_mutex_unlock(&philo[i].meal_total);
 		i++;
 	}
 	if (all_ate_enough == philo->data->nb_philos)
 	{
-		pthread_mutex_lock(&philo->data->death_mutex);
 		print_status(philo, "all ate enough", "\033[31m");
+		pthread_mutex_lock(&philo->data->death_mutex);
 		philo->data->is_over = 1;
 		pthread_mutex_unlock(&philo->data->death_mutex);
 		return (1);
