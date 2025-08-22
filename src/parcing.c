@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   parcing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:05:37 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/21 10:45:09 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/22 17:48:15 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,8 @@ int	arg_verif(int argc, char **argv)
 	int	i;
 
 	i = 1;
-	if (argc < 5)
-		return (printf("not enough arg\n"), 1);
-	else if (argc > 6)
-		return (printf("too many arg\n"), 1);
+	if (argc < 5 || argc > 6)
+		return (printf("wrong number of args\n"), 1);
 	while (argv[i])
 	{
 		if (is_digit(argv[i]) == 1)

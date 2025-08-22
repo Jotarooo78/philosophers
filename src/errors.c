@@ -6,64 +6,46 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:04:17 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/21 17:25:42 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/22 15:02:38 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int    join_threads(t_data *data)
+void    join_threads(t_data *data)
 {
     int i;
 
     i = 0;
-    if (data->threads)
+    while (i < data->nb_philos)
     {
-        while (i < data->nb_philos)
-        {
-            if (pthread_join(data->threads[i], NULL) != 0)
-                return (1);
-            i++;
-        }
+        pthread_join(data->threads[i], NULL);
+        i++;
     }
-    return (0);
 }
 
-int    destroy_mutex(t_data *data)
+void    destroy_mutex(t_data *data)
 {
     int i;
 
     i = 0;
-    if (data->forks)
+    while (i < data->nb_philos)
     {
-        while (i < data->nb_philos)
-        {
-            if (data->forks)
-            {
-                if (pthread_mutex_destroy(&data->forks[i]) != 0)
-                    return (1);
-                if (pthread_mutex_destroy(&data->philos[i].meal_time) != 0)
-                    return (1);
-                if (pthread_mutex_destroy(&data->philos[i].meal_total) != 0)
-                    return (1);
-            }
-            i++;
-        }
-        free(data->forks);
+        pthread_mutex_destroy(&data->forks[i]);
+        pthread_mutex_destroy(&data->philos[i].meal_time);
+        pthread_mutex_destroy(&data->philos[i].meal_total);
+        i++;
     }
-    if (pthread_mutex_destroy(&data->death_mutex) != 0)
-        return (1);
-    if (pthread_mutex_destroy(&data->print_mutex) != 0)
-        return (1);
-    return (0);
+    free(data->forks);
+    pthread_mutex_destroy(&data->death_mutex);
+    pthread_mutex_destroy(&data->print_mutex);
+    pthread_mutex_destroy(&data->start);
 }
 
 int    cleanup_struct(t_data *data)
 {
-    if (join_threads(data) != 0)
-        return (1);
-    if (destroy_mutex(data) != 0)
-        return (1);
+    join_threads(data);
+    destroy_mutex(data);
     if (data->philos)
         free(data->philos);
     if (data->threads)

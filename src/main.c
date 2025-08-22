@@ -6,11 +6,28 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:53:24 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/22 14:00:45 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/22 17:50:21 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+void	*rountine_alone_philo(void *arg)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	if (simulation_done(philo) == 0)
+	{
+		printf("routine alone\n");
+		pthread_mutex_lock(philo->left_f);
+		print_status(philo, "has taken a fork...", "\033[39m");
+		pthread_mutex_unlock(philo->left_f);
+	}
+	while (1)
+		usleep(300);
+	return (NULL);
+}
 
 void	init_threads(t_data *data)
 {
@@ -18,36 +35,32 @@ void	init_threads(t_data *data)
 
 	i = 0;
 	pthread_mutex_lock(&data->start);
-	while (i < data->nb_philos)
+	if (data->nb_philos > 1)
 	{
-		if (pthread_create(&data->threads[i], NULL, &rountine_philos,
-				&data->philos[i]) != 0)
+		while (i < data->nb_philos)
 		{
-			data->is_over = 1;
-			while (i > 0)
-			{
-				pthread_join(data->threads[i], NULL);
-				i--;
-				return ;
-			}
+			pthread_create(&data->threads[i], NULL, &rountine_philos,
+				&data->philos[i]);
+			i++;
 		}
-		i++;
 	}
+	else
+		pthread_create(&data->threads[i], NULL, &rountine_alone_philo,
+			&data->philos[i]);
+	if (data->nb_philos != 1)
+		usleep(500);
 	pthread_mutex_unlock(&data->start);
-	pthread_mutex_destroy(&data->start);
 }
 
 int	main(int argc, char **argv)
 {
-	t_data data;
+	t_data	data;
 
 	if (arg_verif(argc, argv) == 1)
 		return (1);
 	if (init_all_struct(&data, argv) != 0)
 		return (cleanup_struct(&data), 1);
 	data.start_time = get_time();
-	// if (argv[1] == 1)
-		// alone_philo();
 	init_threads(&data);
 	check_is_over(&data, argv);
 	return (cleanup_struct(&data));

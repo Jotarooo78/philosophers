@@ -13,7 +13,7 @@ typedef struct s_philo
 	int				id;
 	int				meals_eaten;
 	long			last_meal_time;
-	pthread_mutex_t meal_total;
+	pthread_mutex_t	meal_total;
 	pthread_mutex_t	meal_time;
 	pthread_mutex_t	*left_f;
 	pthread_mutex_t	*right_f;
@@ -29,7 +29,7 @@ typedef struct s_data
 	long			meals_required;
 	int				is_over;
 	long			start_time;
-	pthread_mutex_t start;
+	pthread_mutex_t	start;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	death_mutex;
 	pthread_mutex_t	print_mutex;

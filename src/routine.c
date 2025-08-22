@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:14:59 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/22 14:09:44 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/22 17:18:52 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,17 @@ void	take_forks(t_philo *philo)
 
 void	eat(t_philo *philo)
 {
-	if (simulation_done(philo) == 1)
-	{
-		drop_forks(philo);
-		return ;
-	}
+	// if (simulation_done(philo) == 1)
+	// 	return ;
 	print_status(philo, "is eating...", "\033[36m");
 	pthread_mutex_lock(&philo->meal_time);
 	philo->last_meal_time = get_current_time(philo->data);
 	pthread_mutex_unlock(&philo->meal_time);
+	
 	pthread_mutex_lock(&philo->meal_total);
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->meal_total);
+	
 	usleep(philo->data->time_to_eat * 1000);
 }
 
@@ -68,13 +67,23 @@ void	think(t_philo *philo)
 	if (simulation_done(philo) == 1)
 		return ;
 	print_status(philo, "is thinking", "\033[34m");
-	// usleep(philo->data->time_to_sleep * 1000);
+	usleep(500);
 }
 
 void	sleep_philo(t_philo *philo)
 {
+	long start;
+
+	start = get_current_time(philo->data);
 	if (simulation_done(philo) == 1)
 		return ;
 	print_status(philo, "is sleeping", "\033[35m");
-	usleep(philo->data->time_to_sleep * 1000);
+	while (1)
+	{
+		if (simulation_done(philo) == 1)
+			return ;
+		if (get_current_time(philo->data) - start >= philo->data->time_to_sleep)
+			return ;
+		usleep(200);
+	}
 }

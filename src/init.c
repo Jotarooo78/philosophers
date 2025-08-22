@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:39:46 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/22 13:59:48 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/22 17:46:03 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	init_philosophers(t_data *data)
 	int	i;
 
 	i = 0;
+	printf("here2\n");
 	while (i < data->nb_philos)
 	{
 		data->philos[i].id = i + 1;
@@ -63,6 +64,7 @@ void	init_philosophers(t_data *data)
 		else
 			data->philos[i].right_f = &data->forks[(i + 1) % data->nb_philos];
 		data->philos[i].data = data;
+		printf("here\1n");
 		i++;
 	}
 }
@@ -81,6 +83,7 @@ int	init_data(t_data *data, char **argv)
 	else
 		data->meals_required = 0;
 	data->is_over = 0;
+	printf("here0\n");
 	return (0);
 }
 

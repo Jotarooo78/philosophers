@@ -6,46 +6,28 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:30:47 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/22 14:05:46 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/22 17:43:20 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	death_by_starvation(t_philo *philo, int i)
+int	death_by_starvation(t_data *data, int i)
 {
-	long last_meal;
-	long time;
-	
-	pthread_mutex_lock(&philo[i].meal_time);
-	last_meal = get_time_last_meal(&philo[i]);
-	pthread_mutex_unlock(&philo[i].meal_time);
-	if (last_meal >= philo->data->time_to_die)
+	pthread_mutex_lock(&data->philos[i].meal_time);
+	if (get_time_last_meal(&data->philos[i]) >= data->time_to_die
+		&& data->philos[i].last_meal_time != 0)
 	{
-		pthread_mutex_lock(&philo->data->death_mutex);
-		if (philo->data->is_over == 0)
-		{
-			philo->data->is_over = 1;
-			pthread_mutex_unlock(&philo->data->death_mutex);
-			time = get_current_time(philo->data);
-			pthread_mutex_lock(&philo->data->print_mutex);
-			printf("\033[31m%ld philo %d died\n", time, philo[i].id);
-			pthread_mutex_unlock(&philo->data->print_mutex);
-			return (1);
-		}
-		pthread_mutex_unlock(&philo->data->death_mutex);
-		// printf("last meal : %ld\n", philo[i].last_meal_time);
+		print_status(&data->philos[i], "died", "\033[31m");
+		pthread_mutex_lock(&data->death_mutex);
+		data->is_over = 1;
+		pthread_mutex_unlock(&data->death_mutex);
+		pthread_mutex_unlock(&data->philos[i].meal_time);
 		return (1);
 	}
+	pthread_mutex_unlock(&data->philos[i].meal_time);
 	return (0);
 }
-
-// int	death_by_starvation(t_philo *philo, int i)
-// {
-// 	(void)philo;
-// 	i = 0;
-// 	return (0);
-// }
 
 int	all_ate_enough(t_philo *philo)
 {
@@ -73,16 +55,42 @@ int	all_ate_enough(t_philo *philo)
 	return (0);
 }
 
+void	alone_philo_death(t_data *data)
+{
+	long start;
+
+	start = data->start_time;
+	while (1)
+	{
+		printf("blocked here\n");
+		if (get_current_time(data) - start >= data->time_to_die)
+		{
+			print_status(data->philos, "died", "\033[31m");
+			pthread_mutex_lock(&data->death_mutex);
+			data->is_over = 1;
+			pthread_mutex_unlock(&data->death_mutex);
+			return ;
+		}
+		usleep(200);
+	}
+}
+
+
 void	check_is_over(t_data *data, char **argv)
 {
 	int	i;
 
+	if (data->nb_philos == 1)
+	{
+		alone_philo_death(data);
+		return ;
+	}
 	while (1)
 	{
 		i = 0;
 		while (i < data->nb_philos)
 		{
-			if (death_by_starvation(data->philos, i) != 0)
+			if (death_by_starvation(data, i) != 0)
 				return ;
 			i++;
 		}
@@ -91,6 +99,5 @@ void	check_is_over(t_data *data, char **argv)
 			if (all_ate_enough(data->philos) != 0)
 				return ;
 		}
-		usleep(1000);
 	}
 }
