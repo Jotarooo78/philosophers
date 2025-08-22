@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:39:46 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/22 12:29:05 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/22 13:59:48 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	init_mutex(t_data *data)
 		pthread_mutex_init(&data->philos[i].meal_total, NULL);
 		i++;
 	}
-
+	pthread_mutex_init(&data->start, NULL);
 	pthread_mutex_init(&data->death_mutex, NULL);
 	pthread_mutex_init(&data->print_mutex, NULL);
 }
@@ -80,7 +80,6 @@ int	init_data(t_data *data, char **argv)
 		data->meals_required = ft_atoi(argv[5]);
 	else
 		data->meals_required = 0;
-	data->start = 0;
 	data->is_over = 0;
 	return (0);
 }

@@ -28,8 +28,8 @@ typedef struct s_data
 	long			time_to_sleep;
 	long			meals_required;
 	int				is_over;
-	int				start;
 	long			start_time;
+	pthread_mutex_t start;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	death_mutex;
 	pthread_mutex_t	print_mutex;

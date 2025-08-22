@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:14:59 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/22 12:32:28 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/22 14:09:44 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ void	eat(t_philo *philo)
 
 void	drop_forks(t_philo *philo)
 {
-	if (simulation_done(philo) == 1)
-		return ;
 	if (determine_priority(philo->id))
 	{
 		pthread_mutex_unlock(philo->left_f);

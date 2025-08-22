@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:30:47 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/22 12:31:11 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/22 14:05:46 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,28 @@
 int	death_by_starvation(t_philo *philo, int i)
 {
 	long last_meal;
+	long time;
 	
 	pthread_mutex_lock(&philo[i].meal_time);
 	last_meal = get_time_last_meal(&philo[i]);
+	pthread_mutex_unlock(&philo[i].meal_time);
 	if (last_meal >= philo->data->time_to_die)
 	{
-		print_status(&philo[i], "died", "\033[31m");
-		// printf("last meal : %ld\n", philo[i].last_meal_time);
 		pthread_mutex_lock(&philo->data->death_mutex);
-		philo->data->is_over = 1;
+		if (philo->data->is_over == 0)
+		{
+			philo->data->is_over = 1;
+			pthread_mutex_unlock(&philo->data->death_mutex);
+			time = get_current_time(philo->data);
+			pthread_mutex_lock(&philo->data->print_mutex);
+			printf("\033[31m%ld philo %d died\n", time, philo[i].id);
+			pthread_mutex_unlock(&philo->data->print_mutex);
+			return (1);
+		}
 		pthread_mutex_unlock(&philo->data->death_mutex);
-		pthread_mutex_unlock(&philo[i].meal_time);
+		// printf("last meal : %ld\n", philo[i].last_meal_time);
 		return (1);
 	}
-	pthread_mutex_unlock(&philo[i].meal_time);
 	return (0);
 }
 
