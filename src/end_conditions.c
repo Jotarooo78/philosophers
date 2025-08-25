@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:30:47 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/25 17:08:26 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/25 18:11:30 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,16 @@ void	check_is_over(t_data *data, char **argv)
 	while (1)
 	{
 		i = 0;
-		if (data->is_over == 1)
-			return ;
 		while (i < data->nb_philos)
 		{
-			if (death_by_starvation(data, i))
-				i++;
+			if (death_by_starvation(data, i) == 1)
+				return ;
+			i++;
 		}
 		if (argv[5] && all_ate_enough(data->philos) != 0)
 			return ;
 		// loop_count++;
-		usleep(500); // Vérifier toutes les 1ms
+		usleep(500);
 	}
 }
 

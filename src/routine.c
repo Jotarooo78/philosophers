@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:14:59 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/25 17:00:46 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/25 18:05:50 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	take_forks(t_philo *philo)
 		return (1);
 	if (philo->id % 2 == 1)
 	{
-		// while time< big_time || all_alive == true
 		pthread_mutex_lock(philo->left_f);
 		print_status(philo, "has taken a fork", "\033[39m");
 		if (simulation_done(philo) == 1)
@@ -66,16 +65,6 @@ void	drop_forks(t_philo *philo)
 	}
 }
 
-void	time_to_something(long time)
-{
-	int	i;
-
-	i = 0;
-	while (i < time)
-	{
-	}
-}
-
 void	think(t_philo *philo)
 {
 	long	time_to_think;
@@ -85,9 +74,10 @@ void	think(t_philo *philo)
 	print_status(philo, "is thinking", "\033[34m");
 	if (philo->data->nb_philos % 2 == 1)
 	{
-		time_to_think = (philo->data->time_to_eat * 2 - philo->data->time_to_sleep);
+		time_to_think = (philo->data->time_to_eat * 2
+				- philo->data->time_to_sleep);
 		if (time_to_think < 0)
-		time_to_think = 1;
+			time_to_think = 1;
 		usleep(time_to_think * 1000);
 	}
 	else
