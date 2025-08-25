@@ -6,20 +6,23 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:14:59 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/25 16:29:42 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/25 17:00:46 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	take_forks(t_philo *philo)
+int	take_forks(t_philo *philo)
 {
 	if (simulation_done(philo) == 1)
-		return ;
+		return (1);
 	if (philo->id % 2 == 1)
 	{
+		// while time< big_time || all_alive == true
 		pthread_mutex_lock(philo->left_f);
 		print_status(philo, "has taken a fork", "\033[39m");
+		if (simulation_done(philo) == 1)
+			return (pthread_mutex_unlock(philo->left_f), 1);
 		pthread_mutex_lock(philo->right_f);
 		print_status(philo, "has taken a fork", "\033[39m");
 	}
@@ -27,9 +30,12 @@ void	take_forks(t_philo *philo)
 	{
 		pthread_mutex_lock(philo->right_f);
 		print_status(philo, "has taken a fork", "\033[39m");
+		if (simulation_done(philo) == 1)
+			return (pthread_mutex_unlock(philo->right_f), 1);
 		pthread_mutex_lock(philo->left_f);
 		print_status(philo, "has taken a fork", "\033[39m");
 	}
+	return (0);
 }
 
 void	eat(t_philo *philo)
@@ -40,7 +46,6 @@ void	eat(t_philo *philo)
 	pthread_mutex_lock(&philo->meal_time);
 	philo->last_meal_time = get_current_time(philo->data);
 	pthread_mutex_unlock(&philo->meal_time);
-	
 	pthread_mutex_lock(&philo->meal_total);
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->meal_total);
@@ -60,37 +65,38 @@ void	drop_forks(t_philo *philo)
 		pthread_mutex_unlock(philo->left_f);
 	}
 }
-// void time_to_something(long time)
-// {
-// 	long ms_time;
-	
-// 	ms_time = time * 1000;
-// 	whie (time < )
 
-	
-// }
+void	time_to_something(long time)
+{
+	int	i;
+
+	i = 0;
+	while (i < time)
+	{
+	}
+}
 
 void	think(t_philo *philo)
 {
-	long start;
+	long	time_to_think;
 
-	start = get_current_time(philo->data);
 	if (simulation_done(philo) == 1)
 		return ;
 	print_status(philo, "is thinking", "\033[34m");
-	while (1)
+	if (philo->data->nb_philos % 2 == 1)
 	{
-		if (simulation_done(philo) == 1)
-			return ;
-		if (get_current_time(philo->data) - start >= philo->data->time_to_sleep)
-			return ;
-		usleep(200);
+		time_to_think = (philo->data->time_to_eat * 2 - philo->data->time_to_sleep);
+		if (time_to_think < 0)
+		time_to_think = 1;
+		usleep(time_to_think * 1000);
 	}
+	else
+		usleep(1000);
 }
 
 void	sleep_philo(t_philo *philo)
 {
-	long start;
+	long	start;
 
 	start = get_current_time(philo->data);
 	if (simulation_done(philo) == 1)

@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:53:24 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/25 15:32:22 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/25 17:07:37 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ int	main(int argc, char **argv)
 	else
 		init_threads(&data);
 	check_is_over(&data, argv);
+    printf("main end\n");
 	return (cleanup_struct(&data));
 }

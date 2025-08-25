@@ -50,7 +50,7 @@ void				print_status(t_philo *philo, char *action, char *color);
 
 // routine actions
 
-void				take_forks(t_philo *philo);
+int				take_forks(t_philo *philo);
 void				eat(t_philo *philo);
 void				drop_forks(t_philo *philo);
 void				think(t_philo *philo);

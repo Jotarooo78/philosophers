@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:04:17 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/22 15:02:38 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/25 17:11:14 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@ void    join_threads(t_data *data)
     int i;
 
     i = 0;
+    printf("before join loop\n");
     while (i < data->nb_philos)
     {
         pthread_join(data->threads[i], NULL);
         i++;
     }
+    printf("join loop end\n");
 }
 
 void    destroy_mutex(t_data *data)
@@ -44,11 +46,15 @@ void    destroy_mutex(t_data *data)
 
 int    cleanup_struct(t_data *data)
 {
+    printf("before join function\n");
     join_threads(data);
+    printf("after join function\n");
     destroy_mutex(data);
+    printf("after mutex function\n");
     if (data->philos)
         free(data->philos);
     if (data->threads)
         free(data->threads);
+    printf("clean end function\n");
     return (0);
 }
