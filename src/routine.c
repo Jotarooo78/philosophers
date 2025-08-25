@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:14:59 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/22 18:41:48 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/25 12:28:01 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,12 @@ void	take_forks(t_philo *philo)
 {
 	if (simulation_done(philo) == 1)
 		return ;
-	if (determine_priority(philo->id))
+	if (philo->data->nb_philos == 1)
+	{
+		pthread_mutex_lock(philo->left_f);
+		print_status(philo, "has taken a fork", "\033[39m");
+	}
+	else if (determine_priority(philo->id))
 	{
 		pthread_mutex_lock(philo->left_f);
 		print_status(philo, "has taken a fork", "\033[39m");
@@ -36,6 +41,11 @@ void	eat(t_philo *philo)
 {
 	if (simulation_done(philo) == 1)
 		return ;
+	if (philo->data->nb_philos == 1)
+	{
+		usleep(philo->data->time_to_die * 1000);
+		return ;
+	}
 	print_status(philo, "is eating", "\033[36m");
 	pthread_mutex_lock(&philo->meal_time);
 	philo->last_meal_time = get_current_time(philo->data);
@@ -50,7 +60,9 @@ void	eat(t_philo *philo)
 
 void	drop_forks(t_philo *philo)
 {
-	if (determine_priority(philo->id))
+	if (philo->data->nb_philos == 1)
+		pthread_mutex_unlock(philo->left_f);
+	else if (determine_priority(philo->id))
 	{
 		pthread_mutex_unlock(philo->left_f);
 		pthread_mutex_unlock(philo->right_f);

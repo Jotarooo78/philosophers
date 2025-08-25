@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:39:46 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/22 18:01:34 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/25 11:33:39 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,6 @@ void	init_philosophers(t_data *data)
 
 int	init_data(t_data *data, char **argv)
 {
-	int	i;
-
-	i = 0;
 	data->nb_philos = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);

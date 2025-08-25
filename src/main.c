@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 13:53:24 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/22 18:28:33 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/25 12:25:28 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	init_threads(t_data *data)
 	int	i;
 
 	i = 0;
-	pthread_mutex_lock(&data->start);
-	if (data->nb_philos > 1)
+	pthread_mutex_lock(&data->start); // savoir pourquoi on lock start ici et avant la routine
+	if (data->nb_philos > 0)
 	{
 		while (i < data->nb_philos)
 		{
@@ -27,8 +27,10 @@ void	init_threads(t_data *data)
 			i++;
 		}
 	}
-	usleep(200);
+	usleep(1000);
+	data->start_time = get_time();
 	pthread_mutex_unlock(&data->start);
+	usleep(1000);
 }
 
 int	main(int argc, char **argv)
@@ -39,9 +41,6 @@ int	main(int argc, char **argv)
 		return (1);
 	if (init_all_struct(&data, argv) != 0)
 		return (cleanup_struct(&data), 1);
-	data.start_time = get_time();
-	if (routine_alone(&data) == 1)
-		return (0);
 	init_threads(&data);
 	check_is_over(&data, argv);
 	return (cleanup_struct(&data));

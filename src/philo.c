@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:30:34 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/22 18:56:07 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/25 12:21:42 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ void	*rountine_philos(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	pthread_mutex_lock(&philo->data->start);
+	pthread_mutex_unlock(&philo->data->start);
+	if (philo->id % 2 == 0)
+		usleep(100);
 	while (simulation_done(philo) == 0)
 	{
 		take_forks(philo);
