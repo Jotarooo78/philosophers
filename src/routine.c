@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:14:59 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/25 16:12:48 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:29:42 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	eat(t_philo *philo)
 	pthread_mutex_lock(&philo->meal_total);
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->meal_total);
-	
 	usleep(philo->data->time_to_eat * 1000);
 }
 
@@ -70,12 +69,23 @@ void	drop_forks(t_philo *philo)
 
 	
 // }
+
 void	think(t_philo *philo)
 {
+	long start;
+
+	start = get_current_time(philo->data);
 	if (simulation_done(philo) == 1)
 		return ;
 	print_status(philo, "is thinking", "\033[34m");
-	usleep(500);
+	while (1)
+	{
+		if (simulation_done(philo) == 1)
+			return ;
+		if (get_current_time(philo->data) - start >= philo->data->time_to_sleep)
+			return ;
+		usleep(200);
+	}
 }
 
 void	sleep_philo(t_philo *philo)
