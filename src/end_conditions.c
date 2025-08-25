@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 16:30:47 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/25 13:43:56 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/25 13:53:39 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	check_is_over(t_data *data, char **argv)
 		if (argv[5] && all_ate_enough(data->philos) != 0)
 			return ;
 		loop_count++;
-		usleep(1000); // Vérifier toutes les 1ms
+		usleep(500); // Vérifier toutes les 1ms
 	}
 }
 
