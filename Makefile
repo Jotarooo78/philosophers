@@ -7,10 +7,10 @@ SRC = src/main.c \
       src/errors.c \
       src/utils.c \
       src/philo.c \
-	  src/routine.c \
-	  src/end_conditions.c \
-	  src/time_functions.c \
-	  src/parcing.c \
+      src/routine.c \
+      src/end_conditions.c \
+      src/time_functions.c \
+      src/parcing.c
 
 OBJ_DIR = obj
 
@@ -18,8 +18,9 @@ OBJ = $(SRC:src/%.c=$(OBJ_DIR)/%.o)
 
 INCLUDES = includes/philosophers.h
 
-CFLAGS = -Wall -Wextra -Werror 
-LDFLAGS = -pthread -g3
+# ThreadSanitizer activé
+CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g -O1
+LDFLAGS = -pthread -fsanitize=thread -g
 
 all: $(NAME)
 
@@ -40,4 +41,19 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: clean fclean all re
+# Règle pour compiler SANS ThreadSanitizer
+normal:
+	$(MAKE) fclean
+	$(MAKE) CFLAGS="-Wall -Wextra -Werror -g" LDFLAGS="-pthread -g"
+
+# Règle pour compiler avec ThreadSanitizer
+tsan:
+	$(MAKE) fclean
+	$(MAKE) CFLAGS="-Wall -Wextra -Werror -fsanitize=thread -g -O1" LDFLAGS="-pthread -fsanitize=thread -g"
+
+# Règle pour Helgrind
+helgrind:
+	$(MAKE) fclean
+	$(MAKE) CFLAGS="-Wall -Wextra -Werror -g -O0" LDFLAGS="-pthread -g"
+
+.PHONY: clean fclean all re normal tsan helgrind
