@@ -42,19 +42,24 @@ typedef struct s_data
 void				init_threads(t_data *data);
 int					init_all_struct(t_data *data, char **argv);
 
-// philo
+// philo : routine
 
 int					simulation_done(t_philo *philo);
 void				*rountine_philos(void *arg);
 void				print_status(t_philo *philo, char *action, char *color);
 
-// action
+// routine actions
 
 void				take_forks(t_philo *philo);
 void				eat(t_philo *philo);
 void				drop_forks(t_philo *philo);
 void				think(t_philo *philo);
 void				sleep_philo(t_philo *philo);
+
+// routine utils
+
+void				alone_philo(t_data *data);
+void				*routine_alone(void *arg);
 
 // end conditions
 
@@ -72,14 +77,8 @@ int					cleanup_struct(t_data *data);
 
 // parcing
 
-int					ft_atoi(const char *nbr);
-int					is_digit(char *str);
+long				ft_atol(const char *nbr);
 int					arg_verif(int argc, char **argv);
 int					parameters_check(t_data *data, char **argv);
-
-// utils
-
-int					determine_priority(int n);
-int					routine_alone(t_data *data);
 
 #endif

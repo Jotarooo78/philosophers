@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 13:14:59 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/25 13:54:53 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:12:48 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,15 @@ void	drop_forks(t_philo *philo)
 		pthread_mutex_unlock(philo->left_f);
 	}
 }
+// void time_to_something(long time)
+// {
+// 	long ms_time;
+	
+// 	ms_time = time * 1000;
+// 	whie (time < )
 
+	
+// }
 void	think(t_philo *philo)
 {
 	if (simulation_done(philo) == 1)

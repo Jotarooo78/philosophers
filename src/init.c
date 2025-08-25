@@ -6,7 +6,7 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:39:46 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/25 11:33:39 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:13:47 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	alloc_struct(t_data *data, char **argv)
 {
 	int	nb_philo;
 
-	nb_philo = ft_atoi(argv[1]);
+	nb_philo = ft_atol(argv[1]);
 	data->philos = malloc(sizeof(t_philo) * nb_philo);
 	if (data->philos == NULL)
 		return (free(data), 1);
@@ -69,12 +69,12 @@ void	init_philosophers(t_data *data)
 
 int	init_data(t_data *data, char **argv)
 {
-	data->nb_philos = ft_atoi(argv[1]);
-	data->time_to_die = ft_atoi(argv[2]);
-	data->time_to_eat = ft_atoi(argv[3]);
-	data->time_to_sleep = ft_atoi(argv[4]);
+	data->nb_philos = ft_atol(argv[1]);
+	data->time_to_die = ft_atol(argv[2]);
+	data->time_to_eat = ft_atol(argv[3]);
+	data->time_to_sleep = ft_atol(argv[4]);
 	if (argv[5])
-		data->meals_required = ft_atoi(argv[5]);
+		data->meals_required = ft_atol(argv[5]);
 	else
 		data->meals_required = 0;
 	data->is_over = 0;

@@ -6,17 +6,17 @@
 /*   By: armosnie <armosnie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:05:37 by armosnie          #+#    #+#             */
-/*   Updated: 2025/08/22 17:48:15 by armosnie         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:13:33 by armosnie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	ft_atoi(const char *nbr)
+long	ft_atol(const char *nbr)
 {
 	char	*nb;
 	int		i;
-	int		res;
+	long		res;
 	int		neg;
 
 	nb = (char *)nbr;

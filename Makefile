@@ -5,7 +5,7 @@ CC = cc
 SRC = src/main.c \
       src/init.c \
       src/errors.c \
-      src/utils.c \
+      src/routine_alone.c \
       src/philo.c \
       src/routine.c \
       src/end_conditions.c \
